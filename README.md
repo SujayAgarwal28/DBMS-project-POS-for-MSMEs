@@ -51,7 +51,7 @@ Make sure you have the following software installed on your computer:
    - Open your terminal or command prompt and run the following command to clone the repository to your local machine:
 
    ```sh
-   git clone https://github.com/yourusername/retail-store-management.git
+   git clone https://github.com/SujayAgarwal28/DBMS-project-POS-for-MSMEs
 Replace yourusername with your GitHub username.
 
 2. **Start XAMPP**
