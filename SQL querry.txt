@@ -1,0 +1,98 @@
+-- Create tables with necessary constraints
+CREATE TABLE IF NOT EXISTS Category (
+    CategoryID INT AUTO_INCREMENT PRIMARY KEY,
+    CategoryName VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Supplier (
+    SupplierID INT AUTO_INCREMENT PRIMARY KEY,
+    SupplierName VARCHAR(100) NOT NULL,
+    ContactName VARCHAR(100),
+    Address VARCHAR(255),
+    City VARCHAR(100),
+    PostalCode VARCHAR(20),
+    Country VARCHAR(100),
+    Phone VARCHAR(20)
+);
+
+CREATE TABLE IF NOT EXISTS Product (
+    ProductID INT AUTO_INCREMENT PRIMARY KEY,
+    ProductName VARCHAR(100) NOT NULL,
+    SupplierID INT,
+    CategoryID INT,
+    UnitPrice DECIMAL(10, 2),
+    StockQuantity INT,
+    FOREIGN KEY (SupplierID) REFERENCES Supplier(SupplierID),
+    FOREIGN KEY (CategoryID) REFERENCES Category(CategoryID)
+);
+
+CREATE TABLE IF NOT EXISTS Customer (
+    CustomerID INT AUTO_INCREMENT PRIMARY KEY,
+    FirstName VARCHAR(100) NOT NULL,
+    LastName VARCHAR(100) NOT NULL,
+    Email VARCHAR(100),
+    Phone VARCHAR(20),
+    Address VARCHAR(255),
+    City VARCHAR(100),
+    PostalCode VARCHAR(20),
+    Country VARCHAR(100)
+);
+
+CREATE TABLE IF NOT EXISTS `Order` (
+    OrderID INT AUTO_INCREMENT PRIMARY KEY,
+    CustomerID INT,
+    OrderDate DATE,
+    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+);
+
+CREATE TABLE IF NOT EXISTS OrderItem (
+    OrderItemID INT AUTO_INCREMENT PRIMARY KEY,
+    OrderID INT,
+    ProductID INT,
+    Quantity INT,
+    Price DECIMAL(10, 2),
+    FOREIGN KEY (OrderID) REFERENCES `Order`(OrderID),
+    FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
+);
+
+CREATE TABLE IF NOT EXISTS Store (
+    StoreID INT AUTO_INCREMENT PRIMARY KEY,
+    StoreName VARCHAR(100) NOT NULL,
+    Address VARCHAR(255),
+    City VARCHAR(100),
+    PostalCode VARCHAR(20),
+    Country VARCHAR(100)
+);
+
+CREATE TABLE IF NOT EXISTS Employee (
+    EmployeeID INT AUTO_INCREMENT PRIMARY KEY,
+    FirstName VARCHAR(100) NOT NULL,
+    LastName VARCHAR(100) NOT NULL,
+    Email VARCHAR(100),
+    Phone VARCHAR(20),
+    StoreID INT,
+    FOREIGN KEY (StoreID) REFERENCES Store(StoreID)
+);
+
+-- Truncate tables and reset auto-increment values
+SET FOREIGN_KEY_CHECKS = 0;
+
+TRUNCATE TABLE OrderItem;
+TRUNCATE TABLE `Order`;
+TRUNCATE TABLE Product;
+TRUNCATE TABLE Customer;
+TRUNCATE TABLE Employee;
+TRUNCATE TABLE Store;
+TRUNCATE TABLE Supplier;
+TRUNCATE TABLE Category;
+
+ALTER TABLE OrderItem AUTO_INCREMENT = 1;
+ALTER TABLE `Order` AUTO_INCREMENT = 1;
+ALTER TABLE Product AUTO_INCREMENT = 1;
+ALTER TABLE Customer AUTO_INCREMENT = 1;
+ALTER TABLE Employee AUTO_INCREMENT = 1;
+ALTER TABLE Store AUTO_INCREMENT = 1;
+ALTER TABLE Supplier AUTO_INCREMENT = 1;
+ALTER TABLE Category AUTO_INCREMENT = 1;
+
+SET FOREIGN_KEY_CHECKS = 1;

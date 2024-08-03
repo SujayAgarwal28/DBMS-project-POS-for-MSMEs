@@ -1,5 +1,3 @@
-
-
 <?php
 // Database connection
 require 'db.php';
