@@ -38,14 +38,17 @@ $low_stock_product = 'None';
 $stock_query = "SELECT ProductName FROM Product WHERE StockQuantity < 5";
 $stock_result = $conn->query($stock_query);
 if ($stock_result && $stock_result->num_rows > 0) {
-    $row = $stock_result->fetch_assoc();
-    $low_stock_product = $row['ProductName'];
+    $low_stock_products = [];
+    while ($row = $stock_result->fetch_assoc()) {
+        $low_stock_products[] = $row['ProductName'];
+    }
+    $low_stock_product = implode(', ', $low_stock_products);
 }
 
 // Recent Activity
 $recent_activity = 'No recent activity';
 
-// Fetch recent activities (e.g., last 10 orders)
+// Fetch recent activities (e.g., last 5 orders)
 $activity_query = "SELECT o.OrderID, o.OrderDate, c.FirstName, c.LastName FROM `Order` o JOIN Customer c ON o.CustomerID = c.CustomerID ORDER BY o.OrderDate DESC LIMIT 5";
 $activity_result = $conn->query($activity_query);
 if ($activity_result && $activity_result->num_rows > 0) {
@@ -61,76 +64,7 @@ if ($activity_result && $activity_result->num_rows > 0) {
 <html>
 <head>
     <title>Retail Store Management</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background: #333;
-            color: #fff;
-            padding: 10px 0;
-            text-align: center;
-        }
-        h1 {
-            margin: 0;
-        }
-        main {
-            padding: 20px;
-        }
-        .nav-button {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 5px;
-            background: #007BFF;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            text-align: center;
-        }
-        .nav-button:hover {
-            background: #0056b3;
-        }
-        .summary-box {
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            margin: 20px 0;
-            padding: 20px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .summary-box h2 {
-            margin-top: 0;
-            color: #333;
-        }
-        .summary-box table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 10px 0;
-        }
-        .summary-box table th, .summary-box table td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
-        .summary-box table th {
-            background-color: #f2f2f2;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        ul li {
-            background: #eee;
-            margin: 5px 0;
-            padding: 10px;
-            border-radius: 4px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
     <header>
@@ -148,32 +82,34 @@ if ($activity_result && $activity_result->num_rows > 0) {
             <a class="nav-button" href="orders/add.php">Create Order</a>
         </section>
 
-        <section id="summary-section" class="summary-box">
-            <h2>Sales Summary</h2>
-            <table>
-                <tr>
-                    <th>Total Sales</th>
-                    <td><?php echo $total_sales ? '$' . number_format($total_sales, 2) : '$0.00'; ?></td>
-                </tr>
-                <tr>
-                    <th>Number of Orders</th>
-                    <td><?php echo $num_orders; ?></td>
-                </tr>
-                <tr>
-                    <th>Top-Selling Product</th>
-                    <td><?php echo $top_selling_product; ?></td>
-                </tr>
-            </table>
-        </section>
+        <section class="dashboard">
+            <div class="dashboard-card summary-box">
+                <h2>Sales Summary</h2>
+                <table>
+                    <tr>
+                        <th>Total Sales:</th>
+                        <td><?php echo $total_sales ? '₹' . number_format($total_sales, 2) : '₹0.00'; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Number of Orders:</th>
+                        <td><?php echo number_format($num_orders); ?></td>
+                    </tr>
+                    <tr>
+                        <th>Top-Selling Product:</th>
+                        <td><?php echo $top_selling_product; ?></td>
+                    </tr>
+                </table>
+            </div>
 
-        <section id="stock-alert-section" class="summary-box">
-            <h2>Stock Alerts</h2>
-            <p>Low Stock Product: <?php echo $low_stock_product; ?></p>
-        </section>
+            <div class="dashboard-card summary-box">
+                <h2>Stock Alerts</h2>
+                <p>Low Stock Products: <?php echo $low_stock_product; ?></p>
+            </div>
 
-        <section id="activity-section" class="summary-box">
-            <h2>Recent Activity</h2>
-            <?php echo $recent_activity; ?>
+            <div class="dashboard-card summary-box">
+                <h2>Recent Activity</h2>
+                <?php echo $recent_activity; ?>
+            </div>
         </section>
     </main>
 </body>

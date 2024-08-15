@@ -63,42 +63,57 @@ if ($activity_result && $activity_result->num_rows > 0) {
     <title>Retail Store Management</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f2f5;
             margin: 0;
             padding: 0;
         }
         header {
-            background: #333;
+            background: linear-gradient(135deg, #007BFF, #6610f2);
             color: #fff;
-            padding: 10px 0;
+            padding: 15px 0;
             text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-        h1 {
+        header h1 {
             margin: 0;
+            font-size: 28px;
+        }
+        header .search-bar {
+            margin-top: 10px;
+        }
+        header .search-bar input {
+            padding: 8px;
+            border-radius: 20px;
+            border: none;
+            width: 200px;
         }
         main {
             padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         .nav-button {
             display: inline-block;
-            padding: 10px 20px;
-            margin: 5px;
+            padding: 12px 25px;
+            margin: 10px 10px 0 0;
             background: #007BFF;
             color: #fff;
             text-decoration: none;
-            border-radius: 5px;
-            text-align: center;
+            border-radius: 25px;
+            transition: background 0.3s ease;
         }
         .nav-button:hover {
             background: #0056b3;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
         }
         .summary-box {
             background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
             margin: 20px 0;
-            padding: 20px;
+            padding: 25px;
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
@@ -106,6 +121,7 @@ if ($activity_result && $activity_result->num_rows > 0) {
         .summary-box h2 {
             margin-top: 0;
             color: #333;
+            font-size: 24px;
         }
         .summary-box table {
             width: 100%;
@@ -114,27 +130,70 @@ if ($activity_result && $activity_result->num_rows > 0) {
         }
         .summary-box table th, .summary-box table td {
             border: 1px solid #ddd;
-            padding: 10px;
+            padding: 15px;
             text-align: left;
         }
         .summary-box table th {
-            background-color: #f2f2f2;
+            background-color: #f8f9fa;
+        }
+        .summary-box .icon {
+            display: inline-block;
+            margin-right: 10px;
         }
         ul {
             list-style-type: none;
             padding: 0;
         }
         ul li {
-            background: #eee;
-            margin: 5px 0;
-            padding: 10px;
-            border-radius: 4px;
+            background: #f8f9fa;
+            margin: 8px 0;
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .alert {
+            background-color: #ffc107;
+            color: #856404;
+            padding: 12px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            list-style: none;
+        }
+        .timeline:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 15px;
+            width: 4px;
+            height: 100%;
+            background: #007BFF;
+        }
+        .timeline li {
+            margin: 15px 0;
+            position: relative;
+        }
+        .timeline li:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -18px;
+            width: 10px;
+            height: 10px;
+            background: #007BFF;
+            border-radius: 50%;
         }
     </style>
 </head>
 <body>
     <header>
         <h1>Retail Store Management</h1>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+        </div>
     </header>
     <main>
         <section id="buttons-section">
@@ -152,15 +211,15 @@ if ($activity_result && $activity_result->num_rows > 0) {
             <h2>Sales Summary</h2>
             <table>
                 <tr>
-                    <th>Total Sales</th>
+                    <th><span class="icon">💰</span>Total Sales</th>
                     <td><?php echo $total_sales ? '$' . number_format($total_sales, 2) : '$0.00'; ?></td>
                 </tr>
                 <tr>
-                    <th>Number of Orders</th>
+                    <th><span class="icon">🛒</span>Number of Orders</th>
                     <td><?php echo $num_orders; ?></td>
                 </tr>
                 <tr>
-                    <th>Top-Selling Product</th>
+                    <th><span class="icon">🏆</span>Top-Selling Product</th>
                     <td><?php echo $top_selling_product; ?></td>
                 </tr>
             </table>
@@ -168,12 +227,14 @@ if ($activity_result && $activity_result->num_rows > 0) {
 
         <section id="stock-alert-section" class="summary-box">
             <h2>Stock Alerts</h2>
-            <p>Low Stock Product: <?php echo $low_stock_product; ?></p>
+            <div class="alert">Low Stock Product: <?php echo $low_stock_product; ?></div>
         </section>
 
         <section id="activity-section" class="summary-box">
             <h2>Recent Activity</h2>
-            <?php echo $recent_activity; ?>
+            <ul class="timeline">
+                <?php echo $recent_activity; ?>
+            </ul>
         </section>
     </main>
 </body>
