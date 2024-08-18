@@ -2,67 +2,158 @@
 // Database connection
 require '../db.php';
 
-// Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve form data
-    $firstName = $_POST['first_name'];
-    $lastName = $_POST['last_name'];
-    $phone = $_POST['phone'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Gather form data
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
     $email = $_POST['email'];
+    $phone = $_POST['phone'];
     $address = $_POST['address'];
-    
-    // Insert data into the database
-    $query = "INSERT INTO Customer (FirstName, LastName, Phone, Email, Address) VALUES (?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("sssss", $firstName, $lastName, $phone, $email, $address);
-    
-    if ($stmt->execute()) {
-        echo "<p>Customer added successfully.</p>";
+
+    // Insert data into database
+    $query = "INSERT INTO Customer (FirstName, LastName, Email, Phone, Address) VALUES ('$first_name', '$last_name', '$email', '$phone', '$address')";
+    if ($conn->query($query) === TRUE) {
+        echo "New customer added successfully!";
     } else {
-        echo "<p>Error: " . $stmt->error . "</p>";
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
-    
-    $stmt->close();
 }
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add Customer</title>
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        header .home-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background 0.3s ease;
+        }
+        header .home-button:hover {
+            background-color: #218838;
+        }
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        table th {
+            background-color: #007BFF;
+            color: white;
+        }
+        table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        table tr:hover {
+            background-color: #e9ecef;
+        }
+        .action-button {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background 0.3s ease;
+            margin-right: 5px;
+        }
+        .action-button:hover {
+            background-color: #0056b3;
+        }
+        form {
+            margin-top: 20px;
+        }
+        form input, form select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        form input[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        form input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .total-spent {
+            font-size: 18px;
+            color: #333;
+            text-align: right;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <title>Add New Customer</title>
 </head>
 <body>
-    <header>
-        <h1>Add Customer</h1>
-        <a href="../index.php" class="home-button">Home</a>
-    </header>
-    <main>
-        <form method="post" action="">
-            <div>
-                <label for="first_name">First Name:</label>
-                <input type="text" id="first_name" name="first_name" required>
-            </div>
-            <div>
-                <label for="last_name">Last Name:</label>
-                <input type="text" id="last_name" name="last_name" required>
-            </div>
-            <div>
-                <label for="phone">Phone:</label>
-                <input type="text" id="phone" name="phone">
-            </div>
-            <div>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email">
-            </div>
-            <div>
-                <label for="address">Address:</label>
-                <textarea id="address" name="address"></textarea>
-            </div>
-            <div>
-                <button type="submit">Add Customer</button>
-            </div>
-        </form>
-    </main>
+<header>
+    <h1>Add New Customer</h1>
+    <a class="home-button" href="../index.php">Home</a>
+</header>
+<main>
+    <form method="POST" action="add.php">
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" required>
+
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" name="phone" required>
+
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" required>
+
+        <input type="submit" value="Add Customer">
+    </form>
+</main>
 </body>
 </html>
