@@ -5,6 +5,11 @@ require '../db.php';
 // Fetch customers from the database
 $query = "SELECT * FROM Customer";
 $result = $conn->query($query);
+
+if (!$result) {
+    // Handle query failure
+    die("Error executing query: " . $conn->error);
+}
 ?>
 
 <!DOCTYPE html>
@@ -70,13 +75,13 @@ $result = $conn->query($query);
         }
         .action-button {
             display: inline-block;
-            padding: 10px 15px;
+            padding: 8px 15px;
             background-color: #007BFF;
             color: white;
             text-decoration: none;
             border-radius: 25px;
+            margin: 5px;
             transition: background 0.3s ease;
-            margin-right: 5px;
         }
         .action-button:hover {
             background-color: #0056b3;
@@ -103,6 +108,8 @@ $result = $conn->query($query);
             }
             .action-button {
                 margin-top: 10px;
+                width: 100%;
+                text-align: center;
             }
         }
     </style>
