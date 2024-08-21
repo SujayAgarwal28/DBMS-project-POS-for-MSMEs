@@ -121,7 +121,7 @@ if (!$result) {
     </header>
     <main>
         <section id="customer-list">
-            <h2>All Customers</h2>
+        <a href="add.php" class="action-button">Add New Customer</a>
             <table>
                 <thead>
                     <tr>
@@ -158,7 +158,7 @@ if (!$result) {
                     <?php endif; ?>
                 </tbody>
             </table>
-            <a href="add.php" class="action-button">Add New Customer</a>
+            
         </section>
     </main>
 </body>
