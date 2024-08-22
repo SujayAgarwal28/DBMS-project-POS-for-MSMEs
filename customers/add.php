@@ -62,44 +62,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-        table th, table td {
-            padding: 15px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
-        table th {
-            background-color: #007BFF;
-            color: white;
-        }
-        table tr:nth-child(even) {
-            background-color: #f8f9fa;
-        }
-        table tr:hover {
-            background-color: #e9ecef;
-        }
-        .action-button {
-            display: inline-block;
-            padding: 10px 15px;
-            background-color: #007BFF;
-            color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            transition: background 0.3s ease;
-            margin-right: 5px;
-        }
-        .action-button:hover {
-            background-color: #0056b3;
-        }
         form {
             margin-top: 20px;
         }
-        form input, form select {
+        form input {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
@@ -115,17 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         form input[type="submit"]:hover {
             background-color: #0056b3;
-        }
-        .total-spent {
-            font-size: 18px;
-            color: #333;
-            text-align: right;
-            font-weight: bold;
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #e9ecef;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
     </style>
     <title>Add New Customer</title>

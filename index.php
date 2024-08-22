@@ -191,9 +191,7 @@ if ($activity_result && $activity_result->num_rows > 0) {
 <body>
     <header>
         <h1>Retail Store Management</h1>
-        <div class="search-bar">
-            <input type="text" placeholder="Search...">
-        </div>
+        
     </header>
     <main>
         <section id="buttons-section">
