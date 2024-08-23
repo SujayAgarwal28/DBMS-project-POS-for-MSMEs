@@ -13,26 +13,98 @@ $conn->close();
 ?>
 
 <!DOCTYPE html>
-<html>
-<style>table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-
-tr:nth-child(even) {
-  background-color: #dddddd;
-}</style>
-
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products List</title>
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        header .home-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background 0.3s ease;
+        }
+        header .home-button:hover {
+            background-color: #218838;
+        }
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        table th {
+            background-color: #007BFF;
+            color: white;
+        }
+        table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        table tr:hover {
+            background-color: #e9ecef;
+        }
+        .nav-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 5px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background 0.3s ease;
+        }
+        .nav-button:hover {
+            background-color: #0056b3;
+        }
+        .action-button {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background 0.3s ease;
+            margin-right: 5px;
+        }
+        .action-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -40,8 +112,8 @@ tr:nth-child(even) {
         <a href="../index.php" class="home-button">Home</a>
     </header>
     <main>
-    <a class="nav-button" href="add.php">Add Product</a>
-    <a class="nav-button" href="../index.php">Home</a>
+        <a class="nav-button" href="add.php">Add Product</a>
+        <a class="nav-button" href="../index.php">Home</a>
         <?php if ($result->num_rows > 0): ?>
             <table>
                 <thead>
@@ -65,8 +137,8 @@ tr:nth-child(even) {
                             <td><?php echo $row['StockQuantity']; ?></td>
                             <td><?php echo $row['CategoryName']; ?></td>
                             <td>
-                                <a href="edit.php?id=<?php echo $row['ProductID']; ?>">Edit</a>
-                                <a href="delete.php?id=<?php echo $row['ProductID']; ?>">Delete</a>
+                                <a href="edit.php?id=<?php echo $row['ProductID']; ?>" class="action-button">Edit</a>
+                                <a href="delete.php?id=<?php echo $row['ProductID']; ?>" class="action-button">Delete</a>
                             </td>
                         </tr>
                     <?php endwhile; ?>
