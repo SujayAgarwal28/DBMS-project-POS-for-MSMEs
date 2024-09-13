@@ -12,10 +12,69 @@ $products_result = $conn->query("SELECT ProductID, ProductName, Price, StockQuan
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Order</title>
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        form div {
+            margin-bottom: 20px;
+        }
+        form label {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        select, input {
+            padding: 10px;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        .order-item {
+            display: flex;
+            align-items: center;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -23,19 +82,23 @@ $products_result = $conn->query("SELECT ProductID, ProductName, Price, StockQuan
     </header>
     <main>
         <form action="process_order.php" method="POST">
-            <label for="customer_id">Customer:</label>
-            <select name="customer_id" id="customer_id" required>
-                <?php while ($row = $customers_result->fetch_assoc()) { ?>
-                    <option value="<?php echo $row['CustomerID']; ?>"><?php echo $row['CustomerName']; ?></option>
-                <?php } ?>
-            </select>
+            <div>
+                <label for="customer_id">Customer:</label>
+                <select name="customer_id" id="customer_id" required>
+                    <?php while ($row = $customers_result->fetch_assoc()) { ?>
+                        <option value="<?php echo $row['CustomerID']; ?>"><?php echo htmlspecialchars($row['CustomerName']); ?></option>
+                    <?php } ?>
+                </select>
+            </div>
 
-            <label for="employee_id">Employee:</label>
-            <select name="employee_id" id="employee_id" required>
-                <?php while ($row = $employees_result->fetch_assoc()) { ?>
-                    <option value="<?php echo $row['EmployeeID']; ?>"><?php echo $row['EmployeeName']; ?></option>
-                <?php } ?>
-            </select>
+            <div>
+                <label for="employee_id">Employee:</label>
+                <select name="employee_id" id="employee_id" required>
+                    <?php while ($row = $employees_result->fetch_assoc()) { ?>
+                        <option value="<?php echo $row['EmployeeID']; ?>"><?php echo htmlspecialchars($row['EmployeeName']); ?></option>
+                    <?php } ?>
+                </select>
+            </div>
 
             <h2>Order Items</h2>
             <div id="order-items">
@@ -43,7 +106,7 @@ $products_result = $conn->query("SELECT ProductID, ProductName, Price, StockQuan
                     <label for="product_id[]">Product:</label>
                     <select name="product_id[]" class="product-select" required>
                         <?php while ($row = $products_result->fetch_assoc()) { ?>
-                            <option value="<?php echo $row['ProductID']; ?>" data-price="<?php echo $row['Price']; ?>" data-stock="<?php echo $row['StockQuantity']; ?>"><?php echo $row['ProductName']; ?></option>
+                            <option value="<?php echo $row['ProductID']; ?>" data-price="<?php echo $row['Price']; ?>" data-stock="<?php echo $row['StockQuantity']; ?>"><?php echo htmlspecialchars($row['ProductName']); ?></option>
                         <?php } ?>
                     </select>
 
@@ -54,8 +117,8 @@ $products_result = $conn->query("SELECT ProductID, ProductName, Price, StockQuan
                     <input type="text" name="price[]" class="price-input" readonly>
                 </div>
             </div>
-            <button type="button" id="add-item-button">Add Another Item</button>
 
+            <button type="button" id="add-item-button">Add Another Item</button>
             <button type="submit">Create Order</button>
         </form>
     </main>
@@ -78,3 +141,4 @@ $products_result = $conn->query("SELECT ProductID, ProductName, Price, StockQuan
     </script>
 </body>
 </html>
+
