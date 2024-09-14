@@ -96,3 +96,23 @@ ALTER TABLE Supplier AUTO_INCREMENT = 1;
 ALTER TABLE Category AUTO_INCREMENT = 1;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+-- Step 1: Drop the existing foreign key constraint (if it exists)
+ALTER TABLE `Order`
+DROP FOREIGN KEY `order_ibfk_1`;
+
+-- Step 2: Add the foreign key constraint with ON DELETE CASCADE
+ALTER TABLE `Order`
+ADD CONSTRAINT `order_ibfk_1` FOREIGN KEY (`CustomerID`) 
+REFERENCES `Customer` (`CustomerID`) 
+ON DELETE CASCADE;
+
+-- Step 1: Drop the existing foreign key constraint in the OrderItem table
+ALTER TABLE `OrderItem`
+DROP FOREIGN KEY `orderitem_ibfk_1`;
+
+-- Step 2: Add the foreign key constraint with ON DELETE CASCADE in the OrderItem table
+ALTER TABLE `OrderItem`
+ADD CONSTRAINT `orderitem_ibfk_1` FOREIGN KEY (`OrderID`) 
+REFERENCES `Order` (`OrderID`) 
+ON DELETE CASCADE;
